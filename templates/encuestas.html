@@ -50,30 +50,22 @@
                 </tr>
             </thead>
             <tbody>
-                    
-                    {% for poll in polls %}
-                        <tr>
-                            <th scope="row">{{poll.getCode()}}</th>
-                            <td scope="col">{{poll.getTitle()}}</td>
-                            <td scope="col">{{poll.getDescription()}}</td>
-                            <td scope="col">1</td>
-                            <td scope="col">
-                                <button type="button" class="btn btn-secondary ">Visualizar</button>
-                                <button type="button" class="btn btn-danger">Eliminar</button>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    <!--
-                    <th scope="row">{{code}}</th>
-                    <td scope="col">{{title}}</td>
-                    <td scope="col">{{description}}</td>
-                    <td scope="col">1</td>
-                    <td scope="col">
-                        <button type="button" class="btn btn-secondary ">Visualizar</button>
-                        <button type="button" class="btn btn-danger">Eliminar</button>
-                    </td>
-                    -->
-                
+               
+                {% for poll in polls %}
+                    <tr>
+                    <form action="/editar_encuesta" method="POST">
+                        <th name="code" scope="row">{{poll.getCode()}}</th>
+                        <td name="title" scope="col">{{poll.getTitle()}}</td>
+                        <td name="description" scope="col">{{poll.getDescription()}}</td>
+                        <td scope="col">1</td>
+                        <td scope="col">
+                            <button type="submit" class="btn btn-secondary ">Visualizar</button>
+                            <button type="button" class="btn btn-danger">Eliminar</button>
+                        </td>
+                    </form>
+                    </tr>
+                {% endfor %}
+               
             </tbody>
           </table>
 

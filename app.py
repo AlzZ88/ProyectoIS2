@@ -1,5 +1,6 @@
 
 from flask import Flask , render_template, request, redirect, url_for
+from flask_mysqldb import MySQL
 
 class Poll:
     _code=-1
@@ -29,7 +30,7 @@ class SystemPoll:
             if self.polls[i].getCode()== code:
                 return self.polls[i]
         
-    def getPoll(self,title):
+    def getPolltitle(self,title):
         for i in self.polls:
             if self.polls[i].getTitle()== title:
                 return self.polls[i]
@@ -49,6 +50,14 @@ class SystemPoll:
 
 app = Flask(__name__)#-------> Main de la aplicación
 
+app.config['MYSQL_HOST']='103.195.100.230'
+app.config['MYSQL_USER']='jookeezc_alejandro'
+app.config['MYSQL_PASSWORD']='is2_gonzal0'
+app.config['MYSQL_DB']='jookeezc_encuesta'
+mysql = MySQL(app)
+
+
+
 # Se inicializa el almacen de encuestas
 polls=SystemPoll()
 
@@ -59,17 +68,14 @@ polls.addPoll(poll1)
 
 
 #-------> Aca deberia estar la query de la base de datos
-
+#SELECT E.id_encuesta,E.nombre,E.descripcion FROM Encuestas as E
 
 
 @app.route("/")
 def home():#----> pagina home
     return render_template('index.html')
 
-"""
-pagina de encuestas, recive el objeto SystemPoll que contiene todas
-las encuestas y las despliega
-"""
+
 @app.route("/encuestas")
 def encuestas():#----> pagina
 
@@ -90,11 +96,32 @@ def crear_encuesta():
         title=request.form['title']
         des=request.form['description']
         print("Ingresar en base de datos "+title+" y "+ des+".")
+
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO Encuestas (nombre, descripcion) VALUES (%s,%s)",(title,des))
+        mysql.connection.commit()
         newpoll=Poll(polls.getCount()+1)
         newpoll.addTitle(title)
         newpoll.addDescription(des)
         polls.addPoll(newpoll)
     return redirect(url_for('encuestas'))
-
-
+@app.route("/editar_encuesta", methods=['POST'])
+def editar_encuesta():
+    if request.method =='POST':
+        True
+        code=request.form['code']
+        #title=request.form['title']
+        #des=request.form['description']
+        newpoll=polls.getPollcode(code)
+        print(newpoll)
+    return render_template("editar_encuesta.html")
+@app.route('/nuevo_enc', methods=['POST'])
+def nuevo_enc():
+    if request.method == 'POST':
+        correo = request.form['correo']
+        nombre = request.form['nombre']
+        cur = mysql.connection.cursor()
+        cur.execute('INSERT INTO Encuestados (correo,nombre) VALUES (%s,%s)',(correo,nombre))
+        mysql.connection.commit()
+    return redirect(url_for('encuestados'))
     
