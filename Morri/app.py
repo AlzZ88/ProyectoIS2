@@ -12,6 +12,42 @@ mysql = MySQL(app)
 def home():
     return render_template("index.html")
 
+@app.route('/encuestados')
+def encuestados():
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM Encuestados')
+    data = cur.fetchall()
+    return render_template("encuestados.html", encuestados = data)#'encuestados'
+
+@app.route('/nuevo_enc', methods=['POST'])
+def nuevo_enc():
+    if request.method == 'POST':
+        correo = request.form['correo']
+        nombre = request.form['nombre']
+        cur = mysql.connection.cursor()
+        cur.execute('INSERT INTO Encuestados (correo,nombre) VALUES (%s,%s)',(correo,nombre))
+        mysql.connection.commit()
+    return redirect(url_for('encuestados'))
+
+@app.route('/editar_encuestado/<email>')
+def get_encuestado(email):
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM Encuestados WHERE email = %s', [email])
+    data = cur.fetchall()
+    return render_template('e-encuestado.html', encuestado = data[0])
+
+@app.route('/eliminar_encuestado/<email>')
+def elim_encuestado(email):
+    cur = mysql.connection.cursor()
+    cur.execute('DELETE FROM Encuestados WHERE correo = %s',[email])
+    mysql.connection.commit()
+    return redirect(url_for('encuestados'))
+
+@app.route('/encuestas')
+def encuestas():
+    return render_template("encuestas.html")#'encuestas' 
+
+
 @app.route('/crearencuesta')
 def crearencuesta():
     return render_template("crearencuesta.html")
@@ -25,23 +61,9 @@ def nuevaEnc():
         print(desc)
     return render_template("encuestas.html")
 
-@app.route('/nuevo_enc', methods=['POST'])
-def nuevo_enc():
-    if request.method == 'POST':
-        correo = request.form['correo']
-        nombre = request.form['nombre']
-        cur = mysql.connection.cursor()
-        cur.execute('INSERT INTO Encuestados (correo,nombre) VALUES (%s,%s)',(correo,nombre))
-        mysql.connection.commit()
-    return redirect(url_for('encuestados'))
 
-@app.route('/encuestas')
-def encuestas():
-    return render_template("encuestas.html")#'encuestas' 
 
-@app.route('/encuestados')
-def encuestados():
-    return render_template("encuestados.html")#'encuestados'
+
 
 if __name__ == '__main__':
     app.run(debug=True)
