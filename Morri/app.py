@@ -1,6 +1,6 @@
 from copyreg import constructor
 from pydoc import describe
-from flask import Flask , render_template,request,url_for
+from flask import Flask, redirect , render_template,request,url_for
 from flask_mysqldb import MySQL
 app = Flask(__name__)
 
@@ -18,7 +18,7 @@ def home():
 def crearencuesta():
     return render_template("crearencuesta.html")
 
-app.route('/nuevaEnc',methods = ['POST'])
+app.route('/nuevaEnc',methods=['POST'])
 def nuevaEnc():
     if request.method == 'POST':
         tit = request.form['titulo']
@@ -26,6 +26,16 @@ def nuevaEnc():
         print(tit)
         print(desc)
     return render_template("encuestas.html")
+
+@app.route('/nuevo_enc', methods=['POST'])
+def nuevo_enc():
+    if request.method == 'POST':
+        correo = request.form['correo']
+        nombre = request.form['nombre']
+        cur = mysql.connection.cursor()
+        cur.excecute('INSERT INTO Encuestados (correo,nombre) VALUES (%s,%s)',(correo,nombre))
+        mysql.connection.commit()
+    return redirect(url_for('encuestados'))
 
 @app.route('/encuestas')
 def encuestas():

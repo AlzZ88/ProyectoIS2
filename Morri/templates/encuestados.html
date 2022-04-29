@@ -12,12 +12,14 @@
 	</header>
 	
 	<nav>
-		<a href="{{url_for('home')}}"> Inicio</a>
-		<a href="{{url_for('encuestas')}}"> Encuestas</a>
+		<a href="home"> Inicio</a>
+		<a href="/encuestas"> Encuestas</a>
         <a href="#"> LogOut</a>
             
 	</nav>
-    <div>
+    
+    {% block content %} {% endblock %}
+    <!--<div>
         <nav>
             <button> Agregar Nuevo encuestado</button>
            
@@ -49,6 +51,6 @@
                 <button> Eliminar encuestado</button>
             </div>
         </lu>
-    </div>
+    </div>-->
 </body>
 </html>
