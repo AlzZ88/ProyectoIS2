@@ -17,13 +17,34 @@
         <a href="#"> LogOut</a>
             
 	</nav>
-    
+    <p>
     <form action="/nuevo_enc", method="POST">
         <input type="text" name="correo" placeholder="Correo">
         <input type="text" name="nombre" placeholder="Nombre"> 
         <button type="submit"> Agregar Encuestado</button>
     </form>
+    </p>
 
+    <table>
+        <thead>
+            <tr>
+                <td>Correo</td>
+                <td>Nombre</td>
+            </tr>
+        </thead>
+        <tbody>
+          {% for encuestado in encuestados %}
+            <tr> 
+                <td>{{ encuestado.0 }}</td> <!--muestra nombre-->
+                <td>{{ encuestado.1 }}</td> <!--muestra correo-->
+                <td> 
+                    <a href="/editar_encuestado/{{ encuestado.0 }}">Editar</a>
+                    <a href="/eliminar_encuestado/{{ encuestado.0 }}">Eliminar</a>
+                </td>
+            </tr>
+          {% endfor%} 
+        </tbody>
+    </table>
     <!--<div>
         <nav>
             <button> Agregar Nuevo encuestado</button>
