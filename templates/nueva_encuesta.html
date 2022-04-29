@@ -26,15 +26,12 @@
           </a>
           <a class="nav-link" href="/">
             <button class="btn btn-sm btn-outline-secondary" type="button">Nueva Pregunta</button>
-          </a>
-          <a class="nav-link" href="/encuestas">
-            <button class="btn btn-outline-success me-2" type="button">Guardar</button>
-          </a>  
+          </a> 
         </div>
         </div	>
       </div>
     </nav>
-    <form>
+    <form action="/crear_encuesta" method="POST">
       <div class="container">
         <div class="mb-3">
           <label for="Input1" class="form-label">Titulo</label>
@@ -44,6 +41,7 @@
           <label for="Textarea1" class="form-label">Descripción</label>
           <textarea class="form-control"  name="description" placeholder="description" rows="3"></textarea>
         </div>
+        <button type="submit" class="btn btn-outline-success me-2">Guardar</button>
       </div>
     </form>
   

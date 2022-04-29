@@ -1,44 +1,5 @@
 
-from flask import Flask , render_template, request
-app = Flask(__name__)
-
-
-
-
-@app.route("/")
-def home():
-    return render_template('index.html')
-
-
-
-@app.route("/encuestas")
-def encuestas():
-    polls=SystemPoll()
-    poll1=Poll(0)
-    poll1.addTitle("Encuesta presidencial 2026")
-    poll1.addDescription("resultados de vocaciones año 2026")
-    polls.addPoll(poll1)
-    for i in range(10):
-        poll = Poll(i+1)
-        poll.addTitle("Title")
-        poll.addDescription("description ")
-        polls.addPoll(poll)
-    
-    return render_template("encuestas.html",
-        polls=polls.getAll())
-
-@app.route("/encuestados")
-def encuestados():
-    return render_template('encuestados.html')
-
-@app.route("/nueva_encuesta",methods=['POST'])
-def nueva_encuesta():
-    if request.method =='POST':
-        title=request.form['title']
-        des=request.form['description']
-        print(title)
-        print(des)
-    return render_template("nueva_encuesta.html")
+from flask import Flask , render_template, request, redirect, url_for
 
 class Poll:
     _code=-1
@@ -81,4 +42,59 @@ class SystemPoll:
             return True
         else:
             return False
+
+
+
+
+
+app = Flask(__name__)#-------> Main de la aplicación
+
+# Se inicializa el almacen de encuestas
+polls=SystemPoll()
+
+poll1=Poll(1)#-------> Encuesta de prueba
+poll1.addTitle("Encuesta presidencial 2026")
+poll1.addDescription("resultados de vocaciones año 2026")
+polls.addPoll(poll1)
+
+
+#-------> Aca deberia estar la query de la base de datos
+
+
+
+@app.route("/")
+def home():#----> pagina home
+    return render_template('index.html')
+
+"""
+pagina de encuestas, recive el objeto SystemPoll que contiene todas
+las encuestas y las despliega
+"""
+@app.route("/encuestas")
+def encuestas():#----> pagina
+
+    return render_template("encuestas.html",
+        polls=polls.getAll())
+
+@app.route("/encuestados")
+def encuestados():
+    return render_template('encuestados.html')
+
+@app.route("/nueva_encuesta")
+def nueva_encuesta():
+    return render_template("nueva_encuesta.html")
+
+@app.route("/crear_encuesta", methods=['POST'])
+def crear_encuesta():
+    if request.method =='POST':
+        title=request.form['title']
+        des=request.form['description']
+        print("Ingresar en base de datos "+title+" y "+ des+".")
+        newpoll=Poll(polls.getCount()+1)
+        newpoll.addTitle(title)
+        newpoll.addDescription(des)
+        polls.addPoll(newpoll)
+    return redirect(url_for('encuestas'))
+
+
     
