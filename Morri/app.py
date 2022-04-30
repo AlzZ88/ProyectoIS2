@@ -29,14 +29,6 @@ def nuevo_enc():
         mysql.connection.commit()
     return redirect(url_for('encuestados'))
 
-<<<<<<< HEAD
-@app.route('/editar_encuestado/<email>')
-def get_encuestado(email):
-    cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM Encuestados WHERE correo = %s', [email])
-    data = cur.fetchall()
-    return render_template('e-encuestado.html', encuestado = data[0])
-=======
 #@app.route('/editar_encuestado/<email>')
 #def get_encuestado(email):
 #    cur = mysql.connection.cursor()
@@ -55,7 +47,6 @@ def get_encuestado(email):
 #        SET nombre = %s
 #        WHERE correo = %s """, (nombre, email))
 #    return redirect(url_for('encuestados'))
->>>>>>> fa003eade1d0f6d09651ad24e035edbe10a01155
 
 @app.route('/eliminar_encuestado/<email>')
 def elim_encuestado(email):
