@@ -107,13 +107,4 @@ nav{
 html{
 	background: #F7F5F2;
 }
-div.pollBox {
-	margin:4px, 4px;
-	padding:4px;
-	background-color: #FDF6EC;
-	width: 500px;
-	height: 110px;
-	overflow-x: hidden;
-	overflow-y: auto;
-	text-align:justify;
-}
+

@@ -11,26 +11,30 @@
 <body>
     <header>
 		<h1>Nombre empresa</h1>
-	</header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container-fluid">
-		  
-		  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		  </button>
-		  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-			<div class="navbar-nav">
-			    <a class="nav-link" aria-current="page" href="/">Inicio</a>
-			    <a class="nav-link active" href="/encuestas">Encuestas</a>
-			    <a class="nav-link" href="/encuestados">Encuestados</a>
-                <a class="nav-link" href="/nueva_encuesta">
-                    <button class="btn btn-outline-success me-2" type="button">Nueva Encuesta</button>
-                </a>
-                
-			</div>
-		  </div	>
-		</div>
-	</nav>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" aria-current="page" href="/">Inicio</a>
+                    <a class="nav-link active" href="/encuestas">Encuestas</a>
+                    <a class="nav-link" href="/encuestados">Encuestados</a>
+                    <a class="nav-link" href="/nueva_encuesta">
+                        <button class="btn btn-outline-success me-2" type="button">Nueva Encuesta</button>
+                    </a>
+                    <a class="nav-link" href="/login">
+                        <button class="btn btn-outline-danger" type="button">LogOut</button>
+                    
+                    </a>
+                    
+                </div>
+            </div	>
+            </div>
+        </nav>
+    </header>
     <div>
         <!--<button type="button" class="btn btn-secondary" onclick="window.location.href='{{ url_for( 'encuestados') }}';"> Nueva Encuesta</button>-->
         
@@ -59,8 +63,10 @@
                         <td name="description" scope="col">{{poll.getDescription()}}</td>
                         <td scope="col">1</td>
                         <td scope="col">
-                            <button type="submit" class="btn btn-secondary ">Visualizar</button>
-                            <button type="button" class="btn btn-danger">Eliminar</button>
+                            <!--<button type="button" class="btn btn-secondary ">Visualizar</button>
+                            <button type="button" class="btn btn-danger">Eliminar</button>-->
+                            <a href="/editar_encuesta/{{poll.getCode()}}"></a>
+                            <a href="/eliminar_encuesta/{{poll.getCode()}}"></a>
                         </td>
                     </form>
                     </tr>
@@ -80,7 +86,7 @@
 
 
         <!--<h1 class="p-3 mb-2 bg-success text-white">Encuestas abiertas</h1>
-        
+         
 
 
 

@@ -32,7 +32,7 @@ def nuevo_enc():
 @app.route('/editar_encuestado/<email>')
 def get_encuestado(email):
     cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM Encuestados WHERE email = %s', [email])
+    cur.execute('SELECT * FROM Encuestados WHERE correo = %s', [email])
     data = cur.fetchall()
     return render_template('e-encuestado.html', encuestado = data[0])
 
